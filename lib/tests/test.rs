@@ -4,7 +4,7 @@ use sha2_derive::*;
 pub(crate) struct Test {
     test: String,
     test2: u32,
-    test3: Vec<i16>,
+    pub(in crate) test3: Vec<i16>,
     test4: Vec<(i32, i64)>,
     test5: &'static [u8],
     test6: std::collections::HashMap<String, Vec<u16>>,
