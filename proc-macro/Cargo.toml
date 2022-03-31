@@ -4,7 +4,7 @@ authors = ["Mubelotix <mubelotix@gmail.com>"]
 readme = "README-cratesio.md"
 description = "The proc macro used by the sha2-derive crate."
 license = "MIT"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 
 [lib]
