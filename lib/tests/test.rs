@@ -1,7 +1,7 @@
 use sha2_derive::*;
 
 #[derive(Hashable)]
-struct Test {
+pub(crate) struct Test {
     test: String,
     test2: u32,
     test3: Vec<i16>,

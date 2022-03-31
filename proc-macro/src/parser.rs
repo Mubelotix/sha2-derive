@@ -15,22 +15,37 @@ pub struct StructDesc {
 pub fn read_struct(tokens: TokenStream) -> StructDesc {
     let mut tokens = tokens.into_iter();
 
-    match tokens.next() {
+    // Visibility
+    let next_token = match tokens.next() {
+        Some(TokenTree::Ident(ident)) if ident.to_string() == "pub" => {
+            match tokens.next() {
+                Some(TokenTree::Group(group)) if group.delimiter() == Delimiter::Parenthesis => tokens.next(),
+                t => t,
+            }
+        },
+        t => t,
+    };
+
+    // Struct
+    match next_token {
         Some(TokenTree::Ident(ident)) if ident.to_string() == "struct" => (),
         _ => panic!("Expected struct"),
     };
 
+    // Name
     let name = match tokens.next() {
         Some(TokenTree::Ident(ident)) => ident.to_string(),
         _ => panic!("Expected struct name"),
     };
 
+    // Brackets
     let struct_content = match tokens.next() {
         Some(TokenTree::Group(group)) if group.delimiter() == Delimiter::Brace => group.stream(),
         _ => panic!("Expected brackets after struct name"),
     };
     tokens = struct_content.into_iter();
 
+    // Fields
     let mut fields = Vec::new();
     loop {
         let field_name = match tokens.next() {
