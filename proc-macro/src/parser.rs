@@ -2,15 +2,21 @@ use proc_macro::*;
 
 // In order to add a method to a struct we don't own
 trait HackTrait {
-    fn next_after_visibility(&mut self) -> Option<TokenTree>;
+    fn next_useful(&mut self) -> Option<TokenTree>;
 }
 
 impl HackTrait for proc_macro::token_stream::IntoIter {
-    fn next_after_visibility(&mut self) -> Option<TokenTree> {
+    fn next_useful(&mut self) -> Option<TokenTree> {
         match self.next() {
             Some(TokenTree::Ident(ident)) if ident.to_string() == "pub" => {
                 match self.next() {
                     Some(TokenTree::Group(group)) if group.delimiter() == Delimiter::Parenthesis => self.next(),
+                    t => t,
+                }
+            },
+            Some(TokenTree::Punct(punct)) if punct.as_char() == '#' => {
+                match self.next() {
+                    Some(TokenTree::Group(group)) if group.delimiter() == Delimiter::Bracket => self.next(),
                     t => t,
                 }
             },
@@ -35,7 +41,7 @@ pub fn read_struct(tokens: TokenStream) -> StructDesc {
     let mut tokens = tokens.into_iter();
 
     // Struct
-    match tokens.next_after_visibility() {
+    match tokens.next_useful() {
         Some(TokenTree::Ident(ident)) if ident.to_string() == "struct" => (),
         _ => panic!("Expected struct"),
     };
@@ -56,7 +62,7 @@ pub fn read_struct(tokens: TokenStream) -> StructDesc {
     // Fields
     let mut fields = Vec::new();
     loop {
-        let field_name = match tokens.next_after_visibility() {
+        let field_name = match tokens.next_useful() {
             Some(TokenTree::Ident(ident)) => ident.to_string(),
             None => break,
             _ => panic!("Expected field name"),

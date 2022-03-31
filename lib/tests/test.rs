@@ -3,9 +3,10 @@ use sha2_derive::*;
 #[derive(Hashable)]
 pub(crate) struct Test {
     test: String,
-    test2: u32,
+    test2: u32, // Comment
     pub(in crate) test3: Vec<i16>,
     test4: Vec<(i32, i64)>,
+    /// Doc comment
     test5: &'static [u8],
     test6: std::collections::HashMap<String, Vec<u16>>,
 }
