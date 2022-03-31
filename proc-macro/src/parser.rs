@@ -10,13 +10,13 @@ impl HackTrait for proc_macro::token_stream::IntoIter {
         match self.next() {
             Some(TokenTree::Ident(ident)) if ident.to_string() == "pub" => {
                 match self.next() {
-                    Some(TokenTree::Group(group)) if group.delimiter() == Delimiter::Parenthesis => self.next(),
+                    Some(TokenTree::Group(group)) if group.delimiter() == Delimiter::Parenthesis => self.next_useful(),
                     t => t,
                 }
             },
             Some(TokenTree::Punct(punct)) if punct.as_char() == '#' => {
                 match self.next() {
-                    Some(TokenTree::Group(group)) if group.delimiter() == Delimiter::Bracket => self.next(),
+                    Some(TokenTree::Group(group)) if group.delimiter() == Delimiter::Bracket => self.next_useful(),
                     t => t,
                 }
             },
