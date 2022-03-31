@@ -1,6 +1,6 @@
 #![allow(clippy::needless_doctest_main)]
 
-//! This crate provides a simple [`Hashable`](https://docs.rs/sha2-derive/latest/sha2-derive/trait.Hashable.html) trait that can be derived easily.  
+//! This crate provides a simple [`Hashable`](https://docs.rs/sha2-derive/latest/sha2_derive/trait.Hashable.html) trait that can be derived easily.  
 //! As of now, the derive macro only works on structs.
 //! 
 //! # Example
