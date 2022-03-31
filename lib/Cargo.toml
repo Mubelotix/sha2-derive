@@ -1,0 +1,11 @@
+[package]
+name = "sha2-derive"
+authors = ["Mubelotix <mubelotix@gmail.com>"]
+license = "MIT"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+sha2-derive-proc-macro = { path="../proc-macro", version="0.1" }
+sha2 = "0.10"
+generic-array = "0.14"

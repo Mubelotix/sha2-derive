@@ -1,0 +1,9 @@
+[package]
+name = "sha2-derive-proc-macro"
+authors = ["Mubelotix <mubelotix@gmail.com>"]
+license = "MIT"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+proc-macro = true
