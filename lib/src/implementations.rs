@@ -51,7 +51,23 @@ impl<T: Hashable> Hashable for [T] {
     }
 }
 
+impl<T: Hashable> Hashable for Vec<T> {
+    fn update_hasher(&self, hasher: &mut impl sha2::Digest) {
+        self.len().update_hasher(hasher);
+        for item in self.iter() {
+            item.update_hasher(hasher);
+        }
+    }
+}
+
 impl Hashable for str {
+    fn update_hasher(&self, hasher: &mut impl sha2::Digest) {
+        self.len().update_hasher(hasher);
+        hasher.update(self.as_bytes());
+    }
+}
+
+impl Hashable for String {
     fn update_hasher(&self, hasher: &mut impl sha2::Digest) {
         self.len().update_hasher(hasher);
         hasher.update(self.as_bytes());

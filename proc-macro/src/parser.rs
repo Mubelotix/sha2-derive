@@ -45,9 +45,12 @@ pub fn read_struct(tokens: TokenStream) -> StructDesc {
         };
 
         let mut field_ty = String::new();
+        let mut opened_brackets = 0;
         loop {
             match tokens.next() {
-                Some(TokenTree::Punct(punct)) if punct.as_char() == ',' => break,
+                Some(TokenTree::Punct(punct)) if punct.as_char() == ',' && opened_brackets == 0 => break,
+                Some(TokenTree::Punct(punct)) if punct.as_char() == '<' => opened_brackets += 1,
+                Some(TokenTree::Punct(punct)) if punct.as_char() == '>' => opened_brackets -= 1,
                 Some(token) => field_ty.push_str(&token.to_string()),
                 None => break,
             };
